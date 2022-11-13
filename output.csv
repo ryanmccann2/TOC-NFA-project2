@@ -1,6 +1,6 @@
-N,1
-q1 q4,q1 q3,q1,q1 q3 q4,q1 q2,q1 q2 q4
-0,1
+N1
+q1 q3 q4,q1 q2,q1 q4,q1,q1 q2 q4,q1 q3
+1,0
 q1
 q1 q4,q1 q2 q4,q1 q3 q4
 q1,0,q1
