@@ -4,30 +4,45 @@ by Ryan McCann and Matt Kennedy
 
 NFA:
 States: {'q1': 1, 'q2': 2, 'q3': 3, 'q4': 4}
-Sigma: {'0', '1'}\Start State: q1
+Sigma: {'1', '0'}\Start State: q1
 Final States: 
 q4
 DELTA: 
 ('q1', '0', 'q1')
 ('q1', '1', 'q1')
 ('q1', '1', 'q2')
+('q1', '~', 'q2')
 ('q2', '0', 'q3')
 ('q2', '~', 'q3')
 ('q3', '1', 'q4')
+('q3', '~', 'q4')
 ('q4', '0', 'q4')
 ('q4', '1', 'q4')
 
 All possible paths below:
+['q1', 'q2', 'q4', 'q4', 'q4', 'q4']
 ['q1', 'q2', 'q3', 'q4', 'q4', 'q4']
+['q1', 'q2', 'q4', 'q4', 'q4', 'q4']
+['q1', 'q2', 'q3', 'q4', 'q4', 'q4']
+['q1', 'q1', 'q1', 'q2', 'q4', 'q4']
+['q1', 'q1', 'q1', 'q2', 'q3', 'q4']
+['q1', 'q1', 'q1', 'q2', 'q4', 'q4']
 ['q1', 'q1', 'q1', 'q2', 'q3', 'q4']
 ['q1', 'q1', 'q1', 'q1', 'q1', 'q3']
+['q1', 'q1', 'q1', 'q1', 'q1', 'q2']
 ['q1', 'q1', 'q1', 'q1', 'q1', 'q2']
 ['q1', 'q1', 'q1', 'q1', 'q1', 'q1']
 
 These are all paths that make it to a final state:
+['q1', 'q2', 'q4', 'q4', 'q4', 'q4']
 ['q1', 'q2', 'q3', 'q4', 'q4', 'q4']
+['q1', 'q2', 'q4', 'q4', 'q4', 'q4']
+['q1', 'q2', 'q3', 'q4', 'q4', 'q4']
+['q1', 'q1', 'q1', 'q2', 'q4', 'q4']
+['q1', 'q1', 'q1', 'q2', 'q3', 'q4']
+['q1', 'q1', 'q1', 'q2', 'q4', 'q4']
 ['q1', 'q1', 'q1', 'q2', 'q3', 'q4']
 
 
-The number of leaves on tree was 5.
-The number of leaves in final state was 2
+The number of leaves on tree was 12.
+The number of leaves in final state was 8
