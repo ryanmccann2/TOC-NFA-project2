@@ -11,7 +11,7 @@ def main():
     ''' to get equivalent DFA from NFA '''
     # nfa2dfa_DarkLamp
     nfa = NFA()
-    nfa.get_NFA("N5.csv")
+    nfa.get_NFA("N6.csv")
     nfa.compute_Er()
     nfa.determine_new_states()
     nfa.determine_new_final_states()

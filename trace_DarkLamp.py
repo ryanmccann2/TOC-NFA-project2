@@ -11,7 +11,7 @@ def main():
     ''' to trace an NFA '''
     # trace_DarkLamp
     nfa = NFA()
-    nfa.get_NFA("N6.csv")
+    nfa.get_NFA("N5.csv")
     nfa.create_trace_delta()
     print(nfa.trace_delta)
     # input random string into nfa.trace

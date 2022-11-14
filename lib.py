@@ -263,7 +263,7 @@ class NFA:
             f.write(f'This is the file that contains the NFA trace for {self.name}.\n')
             f.write(f'This will be an example of trace_DarkLamp program which traces an NFA and shows possible paths for the NFA given a string.\n')
             f.write(f'by Ryan McCann and Matt Kennedy\n\n')
-            f.write(f'NFA:\nStates: {self.states}\nSigma: {self.alphabet}\Start State: {self.start_state}\nFinal States: \n')
+            f.write(f'NFA:\nStates: {self.states}\nSigma: {self.alphabet}\nStart State: {self.start_state}\nFinal States: \n')
             for fs in self.final_states:
                 f.write(f'{fs}\n')
             f.write(f'DELTA: \n')
@@ -284,12 +284,12 @@ class NFA:
 
     def print_DFA_to_file(self):
         ''' print the new DFA to a csv file '''
-        with open('output.csv', 'w') as f:
+        with open('output_nfa2dfa.csv', 'w') as f:
             f.write(f'This is the file that contains the NFA to DFA for {self.name}.\n')
             f.write(f'This will be an example of nfa2dfa_DarkLamp program which transforms a given NFA to an equivalent DFA.\n')
             f.write(f'The output will be in similar format to the input of NFA below, and states are comma separated.\nNOTE: some states look like this: q1 q2, this is one state, the space is a part of the state.\n')
             f.write(f'by Ryan McCann and Matt Kennedy\n\n')
-            f.write(f'NFA:\nStates: {self.states}\nSigma: {self.alphabet}\Start State: {self.start_state}\nFinal States: \n')
+            f.write(f'NFA:\nStates: {self.states}\nSigma: {self.alphabet}\nStart State: {self.start_state}\nFinal States: \n')
             for fs in self.final_states:
                 f.write(f'{fs}\n')
             f.write(f'DELTA: \n')
