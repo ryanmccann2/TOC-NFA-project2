@@ -24,6 +24,8 @@ class NFA:
         self.Er = {}
         self.alphabet_k = {}
         self.map = {}
+        # trace -- data structures
+        self.trace_delta = {}
 
     def print_NFA(self):
         ''' method to print the NFA stats '''
@@ -198,10 +200,104 @@ class NFA:
             for final_state in self.final_states:
                 if final_state in state.split(" "):
                     self.new_final_states.add(state)
+    
+    def create_trace_delta(self):
+        ''' create data structure for trace -- dict of dicts '''
+        self.trace_delta = {x:{} for x in self.states}
+        # for transition in delta
+        for d in self.delta:
+            # if alphabet letter not in current state's dict, then add it and set value as destination state
+            # i.e. (q1, a, q2) === {q1: {a:[q2]}}
+            if d[1] in self.trace_delta[d[0]]:
+                self.trace_delta[d[0]][d[1]].append(d[2])
+            else:
+                self.trace_delta[d[0]][d[1]] = [d[2]]
+
+    def trace(self, string):
+        ''' trace the NFA tree '''
+        paths = []
+        stack = []
+
+        stack.append([self.start_state, string, [self.start_state]])
+
+        while stack:
+            popped = stack.pop()
+            src = popped[0]
+            # string
+            s = popped[1]
+            # list
+            path = popped[2]
+            
+            # if the string is empty, we reached the end of the string
+            if len(s) == 0:
+                paths.append(path)
+
+                if EPSILON in self.trace_delta[src] and len(path) == 1 and path[0] == src:
+                    # if there is an epsilon transition from a given state, then for each destination, append that to the paths list to keep track of possible directions to take
+                    for i in range(len(self.trace_delta[src][EPSILON])):
+                        paths.append([self.trace_delta[src][EPSILON][i]])
+                continue
+
+            if s[0] in self.trace_delta[src]:
+                for i in range(len(self.trace_delta[src][s[0]])):
+                    stack.append([self.trace_delta[src][s[0]][i], s[1:], path + [self.trace_delta[src][s[0]][i]]])
+
+                    child = self.trace_delta[src][s[0]][i]
+
+                    if EPSILON in self.trace_delta[child]:
+                        for i in range(len(self.trace_delta[child][EPSILON])):
+                            stack.append([self.trace_delta[child][EPSILON][i], s[1:], path + [self.trace_delta[child][EPSILON][i]]])
+                
+            if EPSILON in self.trace_delta[src] and len(path) == 1 and path[0] == self.start_state and src == self.start_state:
+                for i in range(len(self.trace_delta[src][EPSILON])):
+                    stack.append([self.trace_delta[src][EPSILON][i], s, [self.trace_delta[src][EPSILON][i]]])
+
+        return paths
+    
+    def trace_final_states(self, paths):
+        result = filter(lambda x: x[-1] in self.final_states, paths)
+        return list(result)
+
+    def print_trace_to_file(self, paths, final_paths):
+        with open("output_trace.csv", "w") as f:
+            f.write(f'This is the file that contains the NFA trace for {self.name}.\n')
+            f.write(f'This will be an example of trace_DarkLamp program which traces an NFA and shows possible paths for the NFA given a string.\n')
+            f.write(f'by Ryan McCann and Matt Kennedy\n\n')
+            f.write(f'NFA:\nStates: {self.states}\nSigma: {self.alphabet}\Start State: {self.start_state}\nFinal States: \n')
+            for fs in self.final_states:
+                f.write(f'{fs}\n')
+            f.write(f'DELTA: \n')
+            for d in self.delta:
+                f.write(f'{d}\n')
+            f.write('\n')
+            f.write("All possible paths below:\n")
+            for path in paths:
+                f.write(f'{path}\n')
+            f.write('\n')
+            f.write("These are all paths that make it to a final state:\n")
+            for path in final_paths:
+                f.write(f'{path}\n')
+            f.write('\n\n')
+            f.write(f'The number of leaves on tree was {len(paths)}.\n')
+            f.write(f'The number of leaves in final state was {len(final_paths)}')
+            
 
     def print_DFA_to_file(self):
         ''' print the new DFA to a csv file '''
         with open('output.csv', 'w') as f:
+            f.write(f'This is the file that contains the NFA to DFA for {self.name}.\n')
+            f.write(f'This will be an example of nfa2dfa_DarkLamp program which transforms a given NFA to an equivalent DFA.\n')
+            f.write(f'The output will be in similar format to the input of NFA below, and states are comma separated.\nNOTE: some states look like this: q1 q2, this is one state, the space is a part of the state.\n')
+            f.write(f'by Ryan McCann and Matt Kennedy\n\n')
+            f.write(f'NFA:\nStates: {self.states}\nSigma: {self.alphabet}\Start State: {self.start_state}\nFinal States: \n')
+            for fs in self.final_states:
+                f.write(f'{fs}\n')
+            f.write(f'DELTA: \n')
+            for d in self.delta:
+                f.write(f'{d}\n')
+            f.write('\n')
+            
+            f.write(f'The DFA from NFA({self.name})\n')
             w = csv.writer(f)
             w.writerow([self.name])
             w.writerow(list(self.new_states))

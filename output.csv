@@ -1,8 +1,30 @@
+This is the file that contains the NFA to DFA for N1.
+This will be an example of nfa2dfa_DarkLamp program which transforms a given NFA to an equivalent DFA.
+The output will be in similar format to the input of NFA below, and states are comma separated.
+NOTE: some states look like this: q1 q2, this is one state, the space is a part of the state.
+by Ryan McCann and Matt Kennedy
+
+NFA:
+States: {'q1': 1, 'q2': 2, 'q3': 3, 'q4': 4}
+Sigma: {'0', '1'}\Start State: q1
+Final States: 
+q4
+DELTA: 
+('q1', '0', 'q1')
+('q1', '1', 'q1')
+('q1', '1', 'q2')
+('q2', '0', 'q3')
+('q2', '~', 'q3')
+('q3', '1', 'q4')
+('q4', '0', 'q4')
+('q4', '1', 'q4')
+
+The DFA from NFA(N1)
 N1
-q1 q3 q4,q1 q2,q1 q4,q1,q1 q2 q4,q1 q3
-1,0
+q1 q3 q4,q1 q2 q4,q1 q3,q1 q4,q1,q1 q2
+0,1
 q1
-q1 q4,q1 q2 q4,q1 q3 q4
+q1 q3 q4,q1 q2 q4,q1 q4
 q1,0,q1
 q1,1,q1 q2
 q1 q2,0,q1 q3
